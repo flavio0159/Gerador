@@ -68,7 +68,7 @@ namespace Gerador
             this.times.Clear();
         }
 
-        public void Par(Panel panel1)
+        public void Par(Panel panel1, ProgressBar barProgress, Label labelProgress)
         {
             int alto = 0;
             Label[][] timecasa = new Label[_qtimes][];
@@ -83,12 +83,24 @@ namespace Gerador
             Boolean calculado = false;
             int II = 0;
             int I = 0;
-            int Altura = 30;            
+            int Altura = 30;
+            SQL sql = new SQL();
 
+            barProgress.Increment(20);
+            for (int i = 0; i <= _qtimes - 1; i++)
+            {
+                sql.consultarTime(times[i]);                
+                labelProgress.Left = barProgress.Left -3 ;
+                labelProgress.Text = "Verificando se o time '"+times[i]+"' existe no Banco...";
+            }
+
+            barProgress.Increment(40);
+            labelProgress.Text = "Gerando tabela...";
             Embaralhador.Shuffle(times); // Embaralha os times.
             List<string> timescopy = new List<string>(times); // Faz uma copa da lista Times.
             for (int i = 0; i <= (_qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
-            {
+            {            
+                
                 timecasa[i] = new Label[_qtimes - 1];
                 timefora[i] = new Label[_qtimes - 1];
                 golscasa[i] = new TextBox[_qtimes - 1];
@@ -274,9 +286,12 @@ namespace Gerador
             alto = 0;
             Altura = returnol.Top + 70;
 
+            barProgress.Increment(40);
+            labelProgress.Text = "Fazendo Returno...";
             for (int i = 0; i <= (_qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
             {
-
+                
+                
                 /*casaleft[i] = new int[qtimes - 1];
                 casatop[i] = new int[qtimes - 1];
                 foraleft[i] = new int[qtimes - 1];
@@ -438,7 +453,12 @@ namespace Gerador
 
 
             }
-
+            if (barProgress.Value == 100)
+            {
+                MessageBox.Show("Left: " + barProgress.Left + " Right " + barProgress.Right);
+                labelProgress.Text = "Finalizado!";
+                labelProgress.Left = barProgress.Left + 82;
+            }
         }
     }
 }

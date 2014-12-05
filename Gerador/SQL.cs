@@ -10,18 +10,18 @@ namespace Gerador
 {
     class SQL
     {
-        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Zack\documents\visual studio 2013\Projects\Gerador\Gerador\Tabela.mdf;Integrated Security=True");      
+        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Zack\documents\visual studio 2013\Projects\Gerador\Gerador\Tabela.mdf;Integrated Security=True");
 
-        public void insertTime(TextBox time)
+        public void insertTime(String time)
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Tabela(Time) VALUES(@Time);",connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Tabela(Time) VALUES(@Time);", connection);
                 connection.Open();
-                cmd.Parameters.AddWithValue("@Time", time.Text);
+                cmd.Parameters.AddWithValue("@Time", time);
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                MessageBox.Show("Time inserido com Sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Time inserido com Sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (SqlException SqlE)
             {
@@ -33,26 +33,29 @@ namespace Gerador
             }
         }
 
-        public void consultarTime(TextBox time)
+        public void consultarTime(String time)
         {
-            SqlCommand cmd = new SqlCommand("SELECT ID FROM Tabela WHERE Time = @time;", connection);
-            cmd.Parameters.AddWithValue("@time", time.Text);
-            connection.Open();
-            SqlDataReader resultado = cmd.ExecuteReader();
-            if (resultado.HasRows)
+            try
             {
-                while (resultado.Read())
+                SqlCommand cmd = new SqlCommand("SELECT ID FROM Tabela WHERE Time = @time;", connection);
+                cmd.Parameters.AddWithValue("@time", time);
+                connection.Open();
+                SqlDataReader resultado = cmd.ExecuteReader();
+                if (!resultado.HasRows)
                 {
-                    MessageBox.Show("ID: " + resultado.GetInt32(0));
+                    connection.Close();
+                    insertTime(time);
                 }
                 connection.Close();
             }
-            else
+            catch (SqlException sqlE)
             {
-                connection.Close();
-                insertTime(time);
+                MessageBox.Show("Falha ao checar se o Time '" + time + "' existe no Banco! \n\n" + sqlE, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+            catch (Exception e)
+            {
+                MessageBox.Show("Falha ao checar se o Time '" + time + "' existe no Banco! \n\n" + e, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

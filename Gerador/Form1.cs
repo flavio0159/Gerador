@@ -36,7 +36,8 @@ namespace Gerador
 
 
         public void Form1_Load(object sender, EventArgs e)
-        {            
+        {
+            quantidadeDeTimeText.Select();
         }
 
         private void sobreToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -277,6 +278,8 @@ namespace Gerador
         {
             // Quando clicar em Limpar, vai limpar o "programa"
             quantidadeDeTimeText.Text = ""; //Limpa a entrada de quantidade de time
+            labelProgress.Text = null;
+            barProgress.Value = 0;
             btnLimpar.Enabled = false; // Bloquear o botão novamente!
             quantidadeDeTimeText.Enabled = true;
             pt.clearList();
@@ -320,7 +323,7 @@ namespace Gerador
                     par = 2;
                     if (pt.setTimePar() == true)
                     {                       
-                        pt.Par(panel1);
+                        pt.Par(panel1,barProgress, labelProgress);
                         salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
                     }
 
@@ -363,13 +366,15 @@ namespace Gerador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SQL sql = new SQL();
-            sql.consultarTime(textBox1);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void barProgress_Click(object sender, EventArgs e)
+        {
         }
     }
 }

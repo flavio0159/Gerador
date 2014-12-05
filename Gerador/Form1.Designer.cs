@@ -40,7 +40,8 @@
             this.lbQantidade = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.barProgress = new System.Windows.Forms.ProgressBar();
+            this.labelProgress = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,12 +167,21 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // textBox1
+            // barProgress
             // 
-            this.textBox1.Location = new System.Drawing.Point(652, 383);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 12;
+            this.barProgress.Location = new System.Drawing.Point(368, 386);
+            this.barProgress.Name = "barProgress";
+            this.barProgress.Size = new System.Drawing.Size(214, 23);
+            this.barProgress.TabIndex = 12;
+            this.barProgress.Click += new System.EventHandler(this.barProgress_Click);
+            // 
+            // labelProgress
+            // 
+            this.labelProgress.AutoSize = true;
+            this.labelProgress.Location = new System.Drawing.Point(473, 368);
+            this.labelProgress.Name = "labelProgress";
+            this.labelProgress.Size = new System.Drawing.Size(0, 13);
+            this.labelProgress.TabIndex = 13;
             // 
             // Form1
             // 
@@ -180,7 +190,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(925, 421);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.labelProgress);
+            this.Controls.Add(this.barProgress);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lbQantidade);
@@ -215,7 +226,8 @@
         private System.Windows.Forms.Label lbQantidade;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ProgressBar barProgress;
+        private System.Windows.Forms.Label labelProgress;
 
     }
 }
