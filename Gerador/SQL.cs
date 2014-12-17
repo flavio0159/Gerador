@@ -16,12 +16,11 @@ namespace Gerador
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO Tabela(Time) VALUES(@Time);", connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Tabela(Time,Gols,Pontos,SaldoDeGols,Jogos,Vitórias,Derrotas,Empates) VALUES(@Time,0,0,0,0,0,0,0);", connection);
                 connection.Open();
                 cmd.Parameters.AddWithValue("@Time", time);
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                //MessageBox.Show("Time inserido com Sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (SqlException SqlE)
             {
@@ -33,7 +32,7 @@ namespace Gerador
             }
         }
 
-        public void consultarTime(String time)
+        public bool consultarTime(String time)
         {
             try
             {
@@ -47,14 +46,33 @@ namespace Gerador
                     insertTime(time);
                 }
                 connection.Close();
+                return true;
             }
             catch (SqlException sqlE)
             {
                 MessageBox.Show("Falha ao checar se o Time '" + time + "' existe no Banco! \n\n" + sqlE, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             catch (Exception e)
             {
                 MessageBox.Show("Falha ao checar se o Time '" + time + "' existe no Banco! \n\n" + e, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        public void insertValores(int gol, String time, int vitoria, int derrota, int empate)
+        {
+            if (consultarTime(time) == true)
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Tabela SET Gols = Gols+@gols, Vitórias = Vitórias+@vit, Derrotas = Derrotas+@derr, Jogos = Jogos+1, Empates = Empates+@emp WHERE Time = @time;", connection);
+                connection.Open();
+                cmd.Parameters.AddWithValue("@gols", gol);
+                cmd.Parameters.AddWithValue("@vit", vitoria);
+                cmd.Parameters.AddWithValue("@derr", derrota);
+                cmd.Parameters.AddWithValue("@emp", empate);
+                cmd.Parameters.AddWithValue("@time", time);
+                cmd.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }

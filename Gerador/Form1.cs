@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Gerador
@@ -278,8 +279,6 @@ namespace Gerador
         {
             // Quando clicar em Limpar, vai limpar o "programa"
             quantidadeDeTimeText.Text = ""; //Limpa a entrada de quantidade de time
-            labelProgress.Text = null;
-            barProgress.Value = 0;
             btnLimpar.Enabled = false; // Bloquear o botão novamente!
             quantidadeDeTimeText.Enabled = true;
             pt.clearList();
@@ -300,7 +299,7 @@ namespace Gerador
         }
 
         private void btnTimes_Click(object sender, EventArgs e)
-        {           
+        {
             try // Vai tentar executar este bloco
             {
                 //qtimes = Convert.ToInt32(quantidadeDeTimeText.Text);
@@ -317,13 +316,12 @@ namespace Gerador
 
             if (ok == true)
             {
-
                 if (pt.qtimes % 2 == 0)
                 {
                     par = 2;
                     if (pt.setTimePar() == true)
-                    {                       
-                        pt.Par(panel1,barProgress, labelProgress);
+                    {
+                        pt.Par(panel1);
                         salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
                     }
 
@@ -332,6 +330,10 @@ namespace Gerador
                         btnLimpar.Enabled = false;
                         btnTimes.Enabled = false;
                     }
+                }
+                else if(pt.setTimesImpar() == true)
+                {
+                    pt.Impar(panel1);
                 }
             }
 
@@ -366,6 +368,7 @@ namespace Gerador
 
         private void button1_Click(object sender, EventArgs e)
         {
+            pt.insertValoresPar();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -375,6 +378,11 @@ namespace Gerador
 
         private void barProgress_Click(object sender, EventArgs e)
         {
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
