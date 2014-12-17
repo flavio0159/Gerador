@@ -11,7 +11,7 @@ namespace Gerador
     {
 
         private List<string> times = new List<string>(); //Criar uma Lista 
-        private double check; //Usado para transforma a quantidade números ímpar em par.
+        double check; //Usado para transforma a quantidade números ímpar em par.
         private String ghost = Convert.ToString(DateTime.Now.Millisecond);
         private int _qtimes; // Armazenar a Quantidade de Times digitada pela pessoa      
         private Label[][] timecasa;
@@ -156,6 +156,8 @@ namespace Gerador
         {
             try
             {
+                int length = 0;
+                String last = "";
                 _qtimes = _qtimes + 1; // Adiciono a quantidade de times ímpar, +1, se tornando um número Par.
                 for (int i = 0; i <= _qtimes - 1; i++) // qtimes - 1, pois, como ocupada a posição 0, se caso o quantidade de Tiems fosse 12, haveria 13 times.
                 {
@@ -169,6 +171,20 @@ namespace Gerador
                     if (times[i] == "")
                     { // Se caso a pessoa clicar em cancelar, mesmo clicando a variável recebe um valor em branco. Caso seja branco, logo entende que foi cancelado.
                         break; // Quebra o For.
+                    }
+                    if (times[i].Length > length)
+                    {
+                        last = times[i].Substring(times[i].Length - 1);
+                        length = times[i].Length;
+                        Graphics pixels = Graphics.FromImage(new Bitmap(1, 1));
+                        SizeF WidthTimes = pixels.MeasureString(times[i], new Font("Arial", 10));
+                        SizeF WidthChar = pixels.MeasureString(last, new Font("Arial", 10));
+                        int lasttamanho = Convert.ToInt32(WidthChar.Width);
+                        if (Char.IsLower(Convert.ToChar(last)))
+                        {
+                            lasttamanho += 7;
+                        }
+                        distancia = Convert.ToInt32(WidthTimes.Width) + lasttamanho;
                     }
                 }
                 return true;
@@ -259,14 +275,12 @@ namespace Gerador
                         golsfora[i][x].Left = timecasa[i][x].Left - 37;
                         golscasa[i][x].Left = timefora[i][x].Left + distancia;
 
-                        MessageBox.Show("Left Gols:" + golscasa[i][x].Left + "\n Distância: " + distancia);
-
                         golsfora[i][x].Top = timecasa[i][x].Top - 3;
                         golscasa[i][x].Top = timefora[i][x].Top - 3;
                     }
                     else
                     {
-                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 80;
+                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 100;
                         timefora[i][x].Left = timecasa[i][x].Left + distancia;
                         if (x == 0)
                         {
@@ -286,16 +300,16 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (golscasa[i-1][x].Left > 650)
+                        if (golscasa[i - 1][x].Left > 650)
                         {
-                            
+
                             if (top == true)
                             {
                                 I = i;
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 40+distancia;
+                            timefora[i][x].Left = 40 + distancia;
                             if (calculado == false)
                             {
                                 Altura = Altura * (_qtimes - 1) / 2;
@@ -373,7 +387,7 @@ namespace Gerador
             Returno.Text = "RETURNO";
             Returno.Font = new Font("Arial", 10);
 
-            Returno.Left = 456;
+            Returno.Left = 426;
             Returno.Top = alto + 70;
 
             panel1.Controls.Add(Returno);
@@ -451,7 +465,7 @@ namespace Gerador
                     {
 
                         timecasa[i][x].Left = 42;
-                        timefora[i][x].Left = 40+distancia;
+                        timefora[i][x].Left = 40 + distancia;
 
                         if (x == 0)
                         {
@@ -472,7 +486,7 @@ namespace Gerador
                     }
                     else
                     {
-                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 80;
+                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 100;
                         timefora[i][x].Left = timecasa[i][x].Left + distancia;
                         if (x == 0)
                         {
@@ -503,7 +517,7 @@ namespace Gerador
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 40+distancia;
+                            timefora[i][x].Left = 40 + distancia;
                             if (i % I == 0 && II != i)
                             {
                                 II = i;
@@ -548,7 +562,7 @@ namespace Gerador
                 partida[i].Height = 14;
                 partida[i].Font = new Font("Arial", 10);
 
-                partida[i].Left = timecasa[i][0].Left + 46;
+                partida[i].Left = timecasa[i][0].Left + distancia - 40;
                 partida[i].Top = timecasa[i][0].Top - 30;
 
                 //partidatop[i] = partida[i].Top;
@@ -635,21 +649,21 @@ namespace Gerador
                     {
 
                         timecasa[i][x].Left = 42;
-                        timefora[i][x].Left = 40+distancia;
+                        timefora[i][x].Left = 40 + distancia;
 
                         timecasa[i][x].Top = Altura * (x + 1);
                         timefora[i][x].Top = Altura * (x + 1);
 
                         golsfora[i][x].Left = timecasa[i][x].Left - 37;
-                        golscasa[i][x].Left = timefora[i][x].Left + 80;
+                        golscasa[i][x].Left = timefora[i][x].Left + distancia;
 
                         golsfora[i][x].Top = timecasa[i][x].Top - 3;
                         golscasa[i][x].Top = timefora[i][x].Top - 3;
                     }
                     else
                     {
-                        timecasa[i][x].Left = timecasa[i - 1][x].Left + 310;
-                        timefora[i][x].Left = timefora[i - 1][x].Left + 310;
+                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 100;
+                        timefora[i][x].Left = timecasa[i][x].Left + distancia;
                         if (x == 0)
                         {
                             timecasa[i][x].Top = Altura;
@@ -668,7 +682,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (timecasa[i][x].Left > 880 || timefora[i][x].Left > 880)
+                        if (golscasa[i - 1][x].Left > 650)
                         {
                             if (top == true)
                             {
@@ -676,7 +690,7 @@ namespace Gerador
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 130;
+                            timefora[i][x].Left = 40+distancia;
                             if (calculado == false)
                             {
                                 Altura = Altura * (_qtimes - 1) / 2;
@@ -704,7 +718,7 @@ namespace Gerador
                         }
 
                         golsfora[i][x].Left = timecasa[i][x].Left - 37;
-                        golscasa[i][x].Left = timefora[i][x].Left + 80;
+                        golscasa[i][x].Left = timefora[i][x].Left + distancia;
 
                         golsfora[i][x].Top = timecasa[i][x].Top - 3;
                         golscasa[i][x].Top = timefora[i][x].Top - 3;
@@ -751,7 +765,7 @@ namespace Gerador
                 partida[i].Height = 14;
                 partida[i].Font = new Font("Arial", 10);
 
-                partida[i].Left = timecasa[i][0].Left + 46;
+                partida[i].Left = timecasa[i][0].Left + distancia - 40;
                 partida[i].Top = timecasa[i][0].Top - 30;
 
                 //partidatop[i] = partida[i].Top;
@@ -809,12 +823,6 @@ namespace Gerador
             for (int i = 0; i <= (_qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
             {
 
-
-                /*casaleft[i] = new int[qtimes - 1];
-                casatop[i] = new int[qtimes - 1];
-                foraleft[i] = new int[qtimes - 1];
-                foratop[i] = new int[qtimes - 1];*/
-
                 timecasa[i] = new Label[_qtimes - 1];
                 timefora[i] = new Label[_qtimes - 1];
                 golscasaR[i] = new TextBox[_qtimes - 1];
@@ -866,7 +874,7 @@ namespace Gerador
                     {
 
                         timecasa[i][x].Left = 42;
-                        timefora[i][x].Left = 130;
+                        timefora[i][x].Left = 40+distancia;
 
                         if (x == 0)
                         {
@@ -880,15 +888,15 @@ namespace Gerador
                         }
 
                         golscasaR[i][x].Left = timecasa[i][x].Left - 37;
-                        golsforaR[i][x].Left = timefora[i][x].Left + 80;
+                        golsforaR[i][x].Left = timefora[i][x].Left + distancia;
 
                         golscasaR[i][x].Top = timecasa[i][x].Top - 3;
                         golsforaR[i][x].Top = timefora[i][x].Top - 3;
                     }
                     else
                     {
-                        timecasa[i][x].Left = timecasa[i - 1][x].Left + 310;
-                        timefora[i][x].Left = timefora[i - 1][x].Left + 310;
+                        timecasa[i][x].Left = golscasa[i - 1][x].Left + 100;
+                        timefora[i][x].Left = timecasa[i][x].Left + distancia;
                         if (x == 0)
                         {
                             timecasa[i][x].Top = Altura;
@@ -910,7 +918,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (timecasa[i][x].Left > 750 || timefora[i][x].Left > 750)
+                        if (golscasaR[i - 1][x].Left > 650)
                         {
                             if (top == true)
                             {
@@ -918,7 +926,7 @@ namespace Gerador
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 130;
+                            timefora[i][x].Left = 40+distancia;
                             if (i % I == 0 && II != i)
                             {
                                 II = i;
@@ -942,7 +950,7 @@ namespace Gerador
                         }
 
                         golscasaR[i][x].Left = timecasa[i][x].Left - 37;
-                        golsforaR[i][x].Left = timefora[i][x].Left + 80; ;
+                        golsforaR[i][x].Left = timefora[i][x].Left + distancia;
 
                         golscasaR[i][x].Top = timecasa[i][x].Top - 3;
                         golsforaR[i][x].Top = timefora[i][x].Top - 3;
