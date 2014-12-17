@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,41 @@ namespace Gerador
 {
     class SQL
     {
-        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Zack\documents\visual studio 2013\Projects\Gerador\Gerador\Tabela.mdf;Integrated Security=True");
+        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename="+Application.StartupPath.ToString()+"\\Tabela.mdf;Integrated Security=True");
+
+        public void resetarTabela()
+        {
+            connection.Open();
+            SqlCommand cmd = new SqlCommand("DELETE FROM TABELA WHERE ID != A", connection);
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void dataGridViewUpdate(DataGridView Tabela)
+        {
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM Tabela", connection);
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+            DataSet Ds = new DataSet();
+            dataAdapter.Fill(Ds);
+            Tabela.DataSource = Ds.Tables[0];
+        }
+
+        public void deletarTime(int ID)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DELETE FROM Tabela WHERE ID = @id;", connection);
+                connection.Open();
+                cmd.Parameters.AddWithValue("@id", ID);
+                cmd.ExecuteNonQuery();
+                connection.Close();
+                MessageBox.Show("Deletado com Sucesso!", "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Falha ao Deletar \n\n" + ex, "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         public void insertTime(String time)
         {

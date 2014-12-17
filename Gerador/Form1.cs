@@ -373,7 +373,8 @@ namespace Gerador
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Tabela tabela = new Tabela();
+            tabela.Visible = true;
         }
 
         private void barProgress_Click(object sender, EventArgs e)

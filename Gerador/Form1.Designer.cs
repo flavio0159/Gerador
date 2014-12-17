@@ -40,7 +40,6 @@
             this.lbQantidade = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -167,14 +166,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // listView1
-            // 
-            this.listView1.Location = new System.Drawing.Point(265, 343);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(426, 66);
-            this.listView1.TabIndex = 12;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -182,7 +173,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(925, 421);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lbQantidade);
@@ -217,7 +207,6 @@
         private System.Windows.Forms.Label lbQantidade;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListView listView1;
 
     }
 }
