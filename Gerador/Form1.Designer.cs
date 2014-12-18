@@ -38,7 +38,7 @@
             this.btnTimes = new System.Windows.Forms.Button();
             this.quantidadeDeTimeText = new System.Windows.Forms.TextBox();
             this.lbQantidade = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +54,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(925, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // arquivoToolStripMenuItem
             // 
@@ -61,10 +62,14 @@
             this.arquivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.abrirToolStripMenuItem,
             this.salvarToolStripMenuItem});
-            this.arquivoToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.arquivoToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.arquivoToolStripMenuItem.ImageTransparentColor = System.Drawing.SystemColors.Control;
             this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
             this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.arquivoToolStripMenuItem.Text = "Arquivo";
+            this.arquivoToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.arquivoToolStripMenuItem.Click += new System.EventHandler(this.arquivoToolStripMenuItem_Click);
+            this.arquivoToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.arquivoToolStripMenuItem_Paint);
             // 
             // abrirToolStripMenuItem
             // 
@@ -75,6 +80,7 @@
             // 
             // salvarToolStripMenuItem
             // 
+            this.salvarToolStripMenuItem.Enabled = false;
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
             this.salvarToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.salvarToolStripMenuItem.Text = "Salvar";
@@ -82,7 +88,7 @@
             // 
             // sobreToolStripMenuItem
             // 
-            this.sobreToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.sobreToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.sobreToolStripMenuItem.Name = "sobreToolStripMenuItem";
             this.sobreToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.sobreToolStripMenuItem.Text = "Sobre";
@@ -137,21 +143,21 @@
             this.lbQantidade.TabIndex = 6;
             this.lbQantidade.Text = "Quantidade de Times:\r\n";
             // 
-            // button1
+            // btnInsert
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(73)))));
-            this.button1.Enabled = false;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(772, 380);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Insert";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnInsert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(73)))));
+            this.btnInsert.Enabled = false;
+            this.btnInsert.FlatAppearance.BorderSize = 0;
+            this.btnInsert.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
+            this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInsert.ForeColor = System.Drawing.Color.White;
+            this.btnInsert.Location = new System.Drawing.Point(772, 380);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(75, 23);
+            this.btnInsert.TabIndex = 7;
+            this.btnInsert.Text = "Insert";
+            this.btnInsert.UseVisualStyleBackColor = false;
+            this.btnInsert.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -174,7 +180,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(925, 421);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.lbQantidade);
             this.Controls.Add(this.quantidadeDeTimeText);
             this.Controls.Add(this.btnLimpar);
@@ -205,7 +211,7 @@
         private System.Windows.Forms.TextBox quantidadeDeTimeText;
         private System.Windows.Forms.ToolStripMenuItem sobreToolStripMenuItem;
         private System.Windows.Forms.Label lbQantidade;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button button2;
 
     }

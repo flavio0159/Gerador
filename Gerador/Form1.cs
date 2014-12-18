@@ -21,11 +21,12 @@ namespace Gerador
         Panel panel1 = new Panel();
         int par = 0;
         bool ok = true; // Retorno True/False se caso ocorrer erro
-        bool cancel = false; // Retorno caso o usuário cancele
 
         public Form1()
         {
             InitializeComponent();
+            SQL sql = new SQL();
+            sql.createTable();
             panel1.Size = new Size(901, 308);
             panel1.Left = 12;
             panel1.Top = 27;
@@ -48,231 +49,111 @@ namespace Gerador
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Stream myStream = null;
-            //OpenFileDialog fileread = new OpenFileDialog();
+            Stream myStream = null;
+            OpenFileDialog fileread = new OpenFileDialog();
 
-            //fileread.InitialDirectory = "Desktop";
-            //fileread.Filter = "Times[Tabela] (*.crp)|*.crp";
-            //fileread.FilterIndex = 2;
-            //fileread.RestoreDirectory = true;
-            //if (fileread.ShowDialog() == DialogResult.OK)
-            //{
-            //    try
-            //    {
-            //        if ((myStream = fileread.OpenFile()) != null)
-            //        {
-            //            using (myStream)
-            //            {
+            fileread.InitialDirectory = "Desktop";
+            fileread.Filter = "Times[Tabela] (*.crp)|*.crp";
+            fileread.FilterIndex = 2;
+            fileread.RestoreDirectory = true;
+            if (fileread.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((myStream = fileread.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
 
-            //                string path = fileread.FileName;
-            //                var filename = Path.GetFileName(fileread.FileName);
-            //                int lines = 0;
-            //                using (var linesreader = File.OpenText(path))
-            //                {
-            //                    while (linesreader.ReadLine() != null)
-            //                    {
-            //                        lines++;
-            //                    }
-            //                }
-            //                qtimes = lines;
-            //                quantidadeDeTimeText.Text = Convert.ToString(qtimes);
-            //                using (var lineRead = new StreamReader(path))
-            //                {
-            //                    if (lines % 2 == 0)
-            //                    {
-            //                        for (int i = 0; i <= lines - 1; i++)
-            //                        {
-            //                            times.Add(lineRead.ReadLine());
-            //                        }
-            //                        Embaralhador.Shuffle(times);
-            //                    }
-            //                    else
-            //                    {
-            //                        for (int i = 0; i <= lines; i++)
-            //                        {
-            //                            if (i == lines)
-            //                            {
-            //                                Embaralhador.Shuffle(times);
-            //                                times.Add(ghost);
-            //                                break;
-            //                            }
-            //                            times.Add(lineRead.ReadLine());
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (Exception)
-            //    {
-            //        Interaction.MsgBox("Falha ao abrir arquivo!", MsgBoxStyle.Critical, "Error");
-            //    }
-            //    quantidadeDeTimeText.Enabled = false;
-            //    listaPartidas.Clear();
-            //    if (qtimes % 2 == 0) // Se o resto de Times for 2 ( Par ), ele executa este Bloco
-            //    {
-            //        List<string> timescopy = new List<string>(times);
-            //        for (int i = 0; i <= (qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
-            //        {
-            //            check = qtimes - 1;
-            //            if (i == check)
-            //            {
-            //                break;
-            //            }
-            //            listaPartidas.Items.Add(i + 1 + "º Rodada: ");
-            //            for (int x = 0; x <= (qtimes - 1) / 2; x++)
-            //            {
-            //                int casa = (i + x) % (qtimes - 1);
-            //                int fora = (qtimes - 1 - x + i) % (qtimes - 1);
-            //                if (x == 0)
-            //                {
-            //                    fora = qtimes - 1;
-            //                }
-            //                listaPartidas.Items.Add(times[casa] + "  -x-  " + timescopy[fora]); // Adiciona os times na ListView.
-            //            }
-            //            listaPartidas.Items.Add("");
-            //            returno = i + 1; ;
-            //        }
-            //        listaPartidas.Items.Add("///// RETURNO /////");
-            //        listaPartidas.Items.Add("");
-            //        for (int i = 0; i <= qtimes - 1; i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
-            //        {
-            //            check = qtimes - 1;
-            //            if (i == check)
-            //            {
-            //                break;
-            //            }
-            //            listaPartidas.Items.Add(returno + 1 + "º Returno: ");
-            //            returno++;
-            //            for (int x = 0; x <= (qtimes - 1) / 2; x++)
-            //            {
-            //                int casa = (i + x) % (qtimes - 1);
-            //                int fora = (qtimes - 1 - x + i) % (qtimes - 1);
-            //                if (x == 0)
-            //                {
-            //                    fora = qtimes - 1;
-            //                }
-            //                listaPartidas.Items.Add(timescopy[fora] + "  -x-  " + times[casa]); // Adiciona os times na ListView.
-            //            }
-            //            listaPartidas.Items.Add("");
-            //        }
-            //    }
-            //    else // Se caso o resto for 1 ( ímpar ) executa este bloco.
-            //    {
-            //        qtimes = qtimes + 1;
-            //        List<string> timescopy = new List<string>(times);
-            //        for (int i = 0; i <= (qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
-            //        {
-            //            check = qtimes - 1;
-            //            if (i == check)
-            //            {
-            //                break;
-            //            }
-            //            listaPartidas.Items.Add(i + 1 + "º Rodada: ");
-            //            for (int x = 0; x <= (qtimes - 1) / 2; x++)
-            //            {
-            //                int casa = (i + x) % (qtimes - 1);
-            //                int fora = (qtimes - 1 - x + i) % (qtimes - 1);
-            //                if (x == 0)
-            //                {
-            //                    fora = qtimes - 1;
-            //                }
-            //                if (timescopy[fora] == ghost || times[casa] == ghost)
-            //                {
-            //                    if (timescopy[fora] == ghost)
-            //                    {
-            //                        listaPartidas.Items.Add("Descanço: " + times[casa]);
-            //                    }
-            //                    if (times[casa] == ghost)
-            //                    {
-            //                        listaPartidas.Items.Add("///Folga: " + timescopy[casa] + "///");
-            //                        listaPartidas.Items.Add("");
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    listaPartidas.Items.Add(times[casa] + "  -x-  " + timescopy[fora]); // Adiciona os times na ListView.
-            //                }
-            //            }
-            //            listaPartidas.Items.Add("");
-            //            returno = i + 1;
-            //        }
-            //        listaPartidas.Items.Add("///// RETURNO /////");
-            //        listaPartidas.Items.Add("");
-            //        for (int i = 0; i <= (qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
-            //        {
-            //            check = qtimes - 1;
-            //            if (i == check)
-            //            {
-            //                break;
-            //            }
-            //            listaPartidas.Items.Add(returno + 1 + "º Rodada: ");
-            //            returno++;
-            //            for (int x = 0; x <= (qtimes - 1) / 2; x++)
-            //            {
-            //                int casa = (i + x) % (qtimes - 1);
-            //                int fora = (qtimes - 1 - x + i) % (qtimes - 1);
-            //                if (x == 0)
-            //                {
-            //                    fora = qtimes - 1;
-            //                }
-            //                if (timescopy[fora] == ghost || times[casa] == ghost)
-            //                {
-            //                    if (timescopy[fora] == ghost)
-            //                    {
-            //                        listaPartidas.Items.Add("Descanço: " + times[casa]);
-            //                    }
-            //                    if (times[casa] == ghost)
-            //                    {
-            //                        listaPartidas.Items.Add("///Folga: " + timescopy[casa] + "///");
-            //                        listaPartidas.Items.Add("");
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    listaPartidas.Items.Add(timescopy[fora] + "  -x-  " + times[casa]); // Adiciona os times na ListView.
-            //                }
-            //            }
-            //            listaPartidas.Items.Add("");
-            //        }
-            //    }
-            //    btnTimes.Enabled = false;
-            //    btnLimpar.Enabled = true;
-            //}
+                            string path = fileread.FileName;
+                            var filename = Path.GetFileName(fileread.FileName);
+                            int lines = 0;
+                            using (var linesreader = File.OpenText(path))
+                            {
+                                while (linesreader.ReadLine() != null)
+                                {
+                                    lines++;
+                                }
+                            }
+                            pt.qtimes = lines;
+                            quantidadeDeTimeText.Text = Convert.ToString(pt.qtimes);
+                            using (var lineRead = new StreamReader(path))
+                            {
+                                if (lines % 2 == 0)
+                                {
+                                    for (int i = 0; i <= lines - 1; i++)
+                                    {
+                                        pt.Times.Add(lineRead.ReadLine());
+                                    }
+                                    Embaralhador.Shuffle(pt.Times);
+                                }
+                                else
+                                {
+                                    for (int i = 0; i <= lines; i++)
+                                    {
+                                        if (i == lines)
+                                        {
+                                            Embaralhador.Shuffle(pt.Times);
+                                            pt.Times.Add(pt.Ghost);
+                                            break;
+                                        }
+                                        pt.Times.Add(lineRead.ReadLine());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    Interaction.MsgBox("Falha ao abrir arquivo!", MsgBoxStyle.Critical, "Error");
+                }
+                quantidadeDeTimeText.Enabled = false;
+                if (pt.qtimes % 2 == 0) // Se o resto de Times for 2 ( Par ), ele executa este Bloco
+                {
+                    pt.Par(panel1);
+                }
+                else // Se caso o resto for 1 ( ímpar ) executa este bloco.
+                {
+                    pt.Impar(panel1);
+                }
+                btnTimes.Enabled = false;
+                btnLimpar.Enabled = true;
+            }
         }
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Stream myStream;
-            //SaveFileDialog filesaveDialog = new SaveFileDialog();
-            //filesaveDialog.Filter = "Times[Tabela] (*.crp)|*.crp";
-            //filesaveDialog.FilterIndex = 2;
-            //filesaveDialog.RestoreDirectory = true;
+            Stream myStream;
+            SaveFileDialog filesaveDialog = new SaveFileDialog();
+            filesaveDialog.Filter = "Times[Tabela] (*.crp)|*.crp";
+            filesaveDialog.FilterIndex = 2;
+            filesaveDialog.RestoreDirectory = true;
 
-            //if (filesaveDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    if ((myStream = filesaveDialog.OpenFile()) != null)
-            //    {
-            //        StreamWriter filewrite = new StreamWriter(myStream);
-            //        if (par == 2)
-            //        {
-            //            for (int i = 0; i <= qtimes - 1; i++)
-            //            {
-            //                filewrite.WriteLine(times[i]);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            for (int i = 0; i <= qtimes - 2; i++)
-            //            {
-            //                filewrite.WriteLine(times[i]);
-            //            }
-            //        }
-            //        filewrite.Close();
-            //        myStream.Close();
-            //    }
-            //}
-            //Interaction.MsgBox("Salvo com Sucesso!", MsgBoxStyle.Information, "Salvo!");
+            if (filesaveDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = filesaveDialog.OpenFile()) != null)
+                {
+                    StreamWriter filewrite = new StreamWriter(myStream);
+                    if (par == 2)
+                    {
+                        for (int i = 0; i <= pt.qtimes - 1; i++)
+                        {
+                            filewrite.WriteLine(pt.Times[i]);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i <= pt.qtimes - 2; i++)
+                        {
+                            filewrite.WriteLine(pt.Times[i]);
+                        }
+                    }
+                    filewrite.Close();
+                    myStream.Close();
+                }
+            }
+            Interaction.MsgBox("Salvo com Sucesso!", MsgBoxStyle.Information, "Salvo!");
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
@@ -283,7 +164,9 @@ namespace Gerador
             quantidadeDeTimeText.Enabled = true;
             pt.clearList();
             panel1.Controls.Clear();
+            btnInsert.Enabled = false;
             abrirToolStripMenuItem.Enabled = true;
+            salvarToolStripMenuItem.Enabled = false;
         }
 
         private void quantidadeDeTimeText_TextChanged_1(object sender, EventArgs e)
@@ -321,19 +204,28 @@ namespace Gerador
                     par = 2;
                     if (pt.setTimePar() == true)
                     {
-                        pt.Par(panel1);
                         salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
+                        pt.Par(panel1);
+                        btnInsert.Enabled = true;
                     }
-
                     else
                     {
                         btnLimpar.Enabled = false;
-                        btnTimes.Enabled = false;
+                        btnInsert.Enabled = false;
+                        btnTimes.Enabled = true;
                     }
                 }
                 else if(pt.setTimesImpar() == true)
                 {
+                    salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
                     pt.Impar(panel1);
+                    btnInsert.Enabled = true;
+                }
+                else
+                {
+                    btnLimpar.Enabled = false;
+                    btnInsert.Enabled = false;
+                    btnTimes.Enabled = true;
                 }
             }
 
@@ -384,6 +276,25 @@ namespace Gerador
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void arquivoToolStripMenuItem_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+        }
+
+        private void arquivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            SQL sql = new SQL();
+            sql.insertTime("Flamengo");
         }
     }
 }

@@ -11,8 +11,20 @@ namespace Gerador
     {
 
         private List<string> times = new List<string>(); //Criar uma Lista 
+
+        public List<string> Times
+        {
+            get { return times; }
+            set { times = value; }
+        }
         double check; //Usado para transforma a quantidade números ímpar em par.
         private String ghost = Convert.ToString(DateTime.Now.Millisecond);
+
+        public String Ghost
+        {
+            get { return ghost; }
+            set { ghost = value; }
+        }
         private int _qtimes; // Armazenar a Quantidade de Times digitada pela pessoa      
         private Label[][] timecasa;
         private Label[][] timefora;
@@ -37,6 +49,11 @@ namespace Gerador
                 {
                     String last = "";
                     times.Add(Interaction.InputBox("Digite o nome do Time:           " + "Total: " + i + "/" + _qtimes, "Times")); // Dialogo para digitar os times
+                    if (times[i] == "" || String.IsNullOrEmpty(times[i]))
+                    {
+                        clearList();
+                        return false;
+                    }
                     if (times[i].Length > length)
                     {
                         last = times[i].Substring(times[i].Length - 1);
@@ -50,11 +67,6 @@ namespace Gerador
                             lasttamanho += 7;
                         }
                         distancia = Convert.ToInt32(WidthTimes.Width) + lasttamanho;
-                    }
-
-                    if (times[i] == "")
-                    { // Se caso a pessoa clicar em cancelar, mesmo clicando a variável recebe um valor em branco. Caso seja branco, logo entende que foi cancelado.
-                        break; // Quebra o For.
                     }
                 }
                 return true;
@@ -118,8 +130,8 @@ namespace Gerador
                             empatef = 1;
                         }
                     }
-                    sql.insertValores(Convert.ToInt32(golsfora[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
-                    sql.insertValores(Convert.ToInt32(golscasa[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
+                    sql.updateValores(Convert.ToInt32(golsfora[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
+                    sql.updateValores(Convert.ToInt32(golscasa[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
 
                     empatec = 0;
                     empatef = 0;
@@ -146,8 +158,9 @@ namespace Gerador
                             empatef = 1;
                         }
                     }
-                    sql.insertValores(Convert.ToInt32(golsforaR[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
-                    sql.insertValores(Convert.ToInt32(golscasaR[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
+                    //sql.updateValores(Convert.ToInt32(golscasaR[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
+                    //sql.updateValores(Convert.ToInt32(golsforaR[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
+
                 }
             }
         }
@@ -168,9 +181,10 @@ namespace Gerador
                         break; // Quebra o For.
                     }
                     times.Add(Interaction.InputBox("Digite o nome do Time:           " + "Total: " + i + "/" + (_qtimes - 1), "Times")); // Dialogo para digitar os times
-                    if (times[i] == "")
-                    { // Se caso a pessoa clicar em cancelar, mesmo clicando a variável recebe um valor em branco. Caso seja branco, logo entende que foi cancelado.
-                        break; // Quebra o For.
+                    if (times[i] == "" || String.IsNullOrEmpty(times[i]))
+                    {
+                        clearList();
+                        return false;
                     }
                     if (times[i].Length > length)
                     {
@@ -690,7 +704,7 @@ namespace Gerador
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 40+distancia;
+                            timefora[i][x].Left = 40 + distancia;
                             if (calculado == false)
                             {
                                 Altura = Altura * (_qtimes - 1) / 2;
@@ -874,7 +888,7 @@ namespace Gerador
                     {
 
                         timecasa[i][x].Left = 42;
-                        timefora[i][x].Left = 40+distancia;
+                        timefora[i][x].Left = 40 + distancia;
 
                         if (x == 0)
                         {
@@ -926,7 +940,7 @@ namespace Gerador
                                 top = false;
                             }
                             timecasa[i][x].Left = 42;
-                            timefora[i][x].Left = 40+distancia;
+                            timefora[i][x].Left = 40 + distancia;
                             if (i % I == 0 && II != i)
                             {
                                 II = i;
