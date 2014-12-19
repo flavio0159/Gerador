@@ -19,7 +19,6 @@ namespace Gerador
     {
         Partida pt = new Partida();
         Panel panel1 = new Panel();
-        int par = 0;
         bool ok = true; // Retorno True/False se caso ocorrer erro
 
         public Form1()
@@ -135,7 +134,7 @@ namespace Gerador
                 if ((myStream = filesaveDialog.OpenFile()) != null)
                 {
                     StreamWriter filewrite = new StreamWriter(myStream);
-                    if (par == 2)
+                    if (pt.qtimes % 2 == 0)
                     {
                         for (int i = 0; i <= pt.qtimes - 1; i++)
                         {
@@ -201,7 +200,6 @@ namespace Gerador
             {
                 if (pt.qtimes % 2 == 0)
                 {
-                    par = 2;
                     if (pt.setTimePar() == true)
                     {
                         salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
@@ -215,7 +213,7 @@ namespace Gerador
                         btnTimes.Enabled = true;
                     }
                 }
-                else if(pt.setTimesImpar() == true)
+                else if (pt.setTimesImpar() == true)
                 {
                     salvarToolStripMenuItem.Enabled = true; // Habilita o botão salvar.
                     pt.Impar(panel1);
@@ -243,6 +241,38 @@ namespace Gerador
 
         private void Form1_Resize(object sender, EventArgs e)
         {
+            if (this.Size.Width < 941)
+            {
+                this.Size = new Size(941, this.Height);
+            }
+            if (this.Size.Height < 460)
+            {
+                this.Size = new Size(this.Width, 460);
+            }          
+            if (this.Width != 941 || this.Height != 460)
+            {
+                btnTimes.Top = this.Height - 117;
+                btnInsert.Top = this.Height - 74;
+                btnLimpar.Top = this.Height - 111;
+                btnTabela.Top = this.Height - 121;
+                quantidadeDeTimeText.Top = this.Height - 95;
+                lbQantidade.Top = this.Height - 94;
+                panel1.Size = new Size(this.Width - 40, this.Height - 152);
+            }
+            if (this.Left > 0)
+            {
+                quantidadeDeTimeText.Left = 159;
+                lbQantidade.Left = 9;
+                panel1.Size = new Size(this.Width - 40, this.Height - 152);
+            }
+            if(this.Right > 941)
+            {
+                btnTimes.Left = this.Width - 88;
+                btnInsert.Left = this.Width - 183;
+                btnLimpar.Left = this.Width - 183;
+                btnTabela.Left = this.Width - 264;
+                panel1.Size = new Size(this.Width - 40, this.Height - 152);
+            }
         }
 
         private void panel1_Move(object sender, EventArgs e)
@@ -260,7 +290,14 @@ namespace Gerador
 
         private void button1_Click(object sender, EventArgs e)
         {
-            pt.insertValoresPar();
+            if (pt.par == true)
+            {
+                pt.insertValoresPar();
+            }
+            else
+            {
+                pt.insertValoresImpar();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -295,6 +332,11 @@ namespace Gerador
         {
             SQL sql = new SQL();
             sql.insertTime("Flamengo");
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            pt.checkvalor();
         }
     }
 }

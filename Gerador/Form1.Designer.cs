@@ -39,7 +39,7 @@
             this.quantidadeDeTimeText = new System.Windows.Forms.TextBox();
             this.lbQantidade = new System.Windows.Forms.Label();
             this.btnInsert = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnTabela = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,12 +97,13 @@
             // btnLimpar
             // 
             this.btnLimpar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(73)))));
+            this.btnLimpar.Enabled = false;
             this.btnLimpar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnLimpar.FlatAppearance.BorderSize = 0;
             this.btnLimpar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
             this.btnLimpar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpar.ForeColor = System.Drawing.Color.White;
-            this.btnLimpar.Location = new System.Drawing.Point(758, 343);
+            this.btnLimpar.Location = new System.Drawing.Point(758, 349);
             this.btnLimpar.Name = "btnLimpar";
             this.btnLimpar.Size = new System.Drawing.Size(89, 31);
             this.btnLimpar.TabIndex = 1;
@@ -151,26 +152,26 @@
             this.btnInsert.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
             this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInsert.ForeColor = System.Drawing.Color.White;
-            this.btnInsert.Location = new System.Drawing.Point(772, 380);
+            this.btnInsert.Location = new System.Drawing.Point(758, 386);
             this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(75, 23);
+            this.btnInsert.Size = new System.Drawing.Size(89, 23);
             this.btnInsert.TabIndex = 7;
-            this.btnInsert.Text = "Insert";
+            this.btnInsert.Text = "Salvar Valores";
             this.btnInsert.UseVisualStyleBackColor = false;
             this.btnInsert.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnTabela
             // 
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(677, 336);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 50);
-            this.button2.TabIndex = 11;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnTabela.FlatAppearance.BorderSize = 0;
+            this.btnTabela.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(255)))), ((int)(((byte)(190)))));
+            this.btnTabela.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTabela.Image = ((System.Drawing.Image)(resources.GetObject("btnTabela.Image")));
+            this.btnTabela.Location = new System.Drawing.Point(677, 339);
+            this.btnTabela.Name = "btnTabela";
+            this.btnTabela.Size = new System.Drawing.Size(75, 50);
+            this.btnTabela.TabIndex = 11;
+            this.btnTabela.UseVisualStyleBackColor = true;
+            this.btnTabela.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
@@ -179,7 +180,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(925, 421);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnTabela);
             this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.lbQantidade);
             this.Controls.Add(this.quantidadeDeTimeText);
@@ -188,7 +189,6 @@
             this.Controls.Add(this.btnTimes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Gerador de Tabela";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -212,7 +212,7 @@
         private System.Windows.Forms.ToolStripMenuItem sobreToolStripMenuItem;
         private System.Windows.Forms.Label lbQantidade;
         private System.Windows.Forms.Button btnInsert;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnTabela;
 
     }
 }

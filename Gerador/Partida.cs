@@ -11,6 +11,13 @@ namespace Gerador
     {
 
         private List<string> times = new List<string>(); //Criar uma Lista 
+        private bool _par = false;
+
+        public bool par
+        {
+            get { return _par; }
+            set { _par = value; }
+        }
 
         public List<string> Times
         {
@@ -42,6 +49,7 @@ namespace Gerador
 
         public bool setTimePar()
         {
+            par = true;
             try
             {
                 int length = 0;
@@ -80,93 +88,196 @@ namespace Gerador
 
         public void insertValoresPar()
         {
+                SQL sql = new SQL();
+                for (int i = 0; i <= (_qtimes - 1); i++)
+                {
+                    check = _qtimes - 1; // Se caso qtimes for até o final, em uma tábela de 8 Times, que o correto deveria ser 4 Jogos, ele vai vai ser 5 Rodadas ( Repetindo a primeira ). Então quando ele chegar -1, vai quebrar o for impedindo que conte novamente.
+                    if (i == check) // Faz a verificação se já chegou a qtimes -1.
+                    {
+                        MessageBox.Show("Valores Adicionados!", "Terminado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Tabela tabela = new Tabela();
+                        sql.dataGridViewUpdate(tabela.getDataGridView());
+                        break; // Quebra o For.
+                    }
+                    for (int x = 0; x <= (_qtimes - 1) / 2; x++)
+                    {
+                        if (String.IsNullOrEmpty(golscasa[i][x].Text))
+                        {
+                            golscasa[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golscasaR[i][x].Text))
+                        {
+                            golscasaR[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsfora[i][x].Text))
+                        {
+                            golsfora[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsforaR[i][x].Text))
+                        {
+                            golsforaR[i][x].Text = "0";
+                        }
+                        int empatec = 0;
+                        int empatef = 0;
+                        int vitoriac = 0;
+                        int vitoriaf = 0;
+                        int derrotac = 0;
+                        int derrotaf = 0;
+                        if (Convert.ToInt32(golsfora[i][x].Text) > Convert.ToInt32(golscasa[i][x].Text))
+                        {
+                            vitoriaf = 1;
+                            derrotac = 1;
+                        }
+                        else
+                        {
+                            if (Convert.ToInt32(golsfora[i][x].Text) < Convert.ToInt32(golscasa[i][x].Text))
+                            {
+                                vitoriac = 1;
+                                derrotaf = 1;
+                            }
+                            else
+                            {
+                                empatec = 1;
+                                empatef = 1;
+                            }
+                        }
+                        sql.updateValores(Convert.ToInt32(golsfora[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef,Convert.ToInt32(golscasa[i][x].Text));
+                        sql.updateValores(Convert.ToInt32(golscasa[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec,Convert.ToInt32(golsfora[i][x].Text));
+
+                        empatec = 0;
+                        empatef = 0;
+                        vitoriac = 0;
+                        vitoriaf = 0;
+                        derrotac = 0;
+                        derrotaf = 0;
+
+                        if (Convert.ToInt32(golsforaR[i][x].Text) > Convert.ToInt32(golscasaR[i][x].Text))
+                        {
+                            vitoriaf = 1;
+                            derrotac = 1;
+                        }
+                        else
+                        {
+                            if (Convert.ToInt32(golsforaR[i][x].Text) < Convert.ToInt32(golscasaR[i][x].Text))
+                            {
+                                vitoriac = 1;
+                                derrotaf = 1;
+                            }
+                            else
+                            {
+                                empatec = 1;
+                                empatef = 1;
+                            }
+                        }
+                        sql.updateValores(Convert.ToInt32(golscasaR[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec,Convert.ToInt32(golsforaR[i][x].Text));
+                        sql.updateValores(Convert.ToInt32(golsforaR[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef,Convert.ToInt32(golscasaR[i][x].Text));
+                    }
+                }
+        }
+
+        public void insertValoresImpar()
+        {
             SQL sql = new SQL();
             for (int i = 0; i <= (_qtimes - 1); i++)
             {
-                check = _qtimes - 1; // Se caso qtimes for até o final, em uma tábela de 8 Times, que o correto deveria ser 4 Jogos, ele vai vai ser 5 Rodadas ( Repetindo a primeira ). Então quando ele chegar -1, vai quebrar o for impedindo que conte novamente.
                 if (i == check) // Faz a verificação se já chegou a qtimes -1.
                 {
-                    break; // Quebra o For.
+                    MessageBox.Show("Valores Adicionados!", "Terminado!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
                 }
+                check = _qtimes - 1; // Se caso qtimes for até o final, em uma tábela de 8 Times, que o correto deveria ser 4 Jogos, ele vai vai ser 5 Rodadas ( Repetindo a primeira ). Então quando ele chegar -1, vai quebrar o for impedindo que conte novamente.
                 for (int x = 0; x <= (_qtimes - 1) / 2; x++)
                 {
-                    if (String.IsNullOrEmpty(golscasa[i][x].Text))
+                    if (!timecasa[i][x].Text.Contains("Descanço: ") && !timefora[i][x].Text.Contains("Descanço: "))
                     {
-                        golscasa[i][x].Text = "0";
-                    }
-                    if (String.IsNullOrEmpty(golscasaR[i][x].Text))
-                    {
-                        golscasaR[i][x].Text = "0";
-                    }
-                    if (String.IsNullOrEmpty(golsfora[i][x].Text))
-                    {
-                        golsfora[i][x].Text = "0";
-                    }
-                    if (String.IsNullOrEmpty(golsforaR[i][x].Text))
-                    {
-                        golsforaR[i][x].Text = "0";
-                    }
-                    int empatec = 0;
-                    int empatef = 0;
-                    int vitoriac = 0;
-                    int vitoriaf = 0;
-                    int derrotac = 0;
-                    int derrotaf = 0;
-                    if (Convert.ToInt32(golsfora[i][x].Text) > Convert.ToInt32(golscasa[i][x].Text))
-                    {
-                        vitoriaf = 1;
-                        derrotac = 1;
-                    }
-                    else
-                    {
-                        if (Convert.ToInt32(golsfora[i][x].Text) < Convert.ToInt32(golscasa[i][x].Text))
+                        if (golscasa[i][x].Text == "return")
                         {
-                            vitoriac = 1;
-                            derrotaf = 1;
+                            golscasa[i][x].Text = golscasa[i][(_qtimes - 1) / 2].Text;
+                            golsfora[i][x].Text = golsfora[i][(_qtimes - 1) / 2].Text;
+                        }
+                        if (golscasaR[i][x].Text == "return")
+                        {
+                            golscasaR[i][x].Text = golscasaR[i][(_qtimes - 1) / 2].Text;
+                            golsforaR[i][x].Text = golsforaR[i][(_qtimes - 1) / 2].Text;
+                        }
+                        if (String.IsNullOrEmpty(golscasa[i][x].Text))
+                        {
+                            golscasa[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsfora[i][x].Text))
+                        {
+                            golsfora[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golscasaR[i][x].Text))
+                        {
+                            golscasaR[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsforaR[i][x].Text))
+                        {
+                            golsforaR[i][x].Text = "0";
+                        }
+
+                        int empatec = 0;
+                        int empatef = 0;
+                        int vitoriac = 0;
+                        int vitoriaf = 0;
+                        int derrotac = 0;
+                        int derrotaf = 0;
+                        if (Convert.ToInt32(golsfora[i][x].Text) > Convert.ToInt32(golscasa[i][x].Text))
+                        {
+                            vitoriaf = 1;
+                            derrotac = 1;
                         }
                         else
                         {
-                            empatec = 1;
-                            empatef = 1;
+                            if (Convert.ToInt32(golsfora[i][x].Text) < Convert.ToInt32(golscasa[i][x].Text))
+                            {
+                                vitoriac = 1;
+                                derrotaf = 1;
+                            }
+                            else
+                            {
+                                empatec = 1;
+                                empatef = 1;
+                            }
                         }
-                    }
-                    sql.updateValores(Convert.ToInt32(golsfora[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
-                    sql.updateValores(Convert.ToInt32(golscasa[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
+                        sql.updateValores(Convert.ToInt32(golsfora[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef,Convert.ToInt32(golscasa[i][x].Text));
+                        sql.updateValores(Convert.ToInt32(golscasa[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec,Convert.ToInt32(golsfora[i][x].Text));
+                        empatec = 0;
+                        empatef = 0;
+                        vitoriac = 0;
+                        vitoriaf = 0;
+                        derrotac = 0;
+                        derrotaf = 0;
 
-                    empatec = 0;
-                    empatef = 0;
-                    vitoriac = 0;
-                    vitoriaf = 0;
-                    derrotac = 0;
-                    derrotaf = 0;
-
-                    if (Convert.ToInt32(golsforaR[i][x].Text) > Convert.ToInt32(golscasaR[i][x].Text))
-                    {
-                        vitoriaf = 1;
-                        derrotac = 1;
-                    }
-                    else
-                    {
-                        if (Convert.ToInt32(golsforaR[i][x].Text) < Convert.ToInt32(golscasaR[i][x].Text))
+                        if (Convert.ToInt32(golsforaR[i][x].Text) > Convert.ToInt32(golscasaR[i][x].Text))
                         {
-                            vitoriac = 1;
-                            derrotaf = 1;
+                            vitoriaf = 1;
+                            derrotac = 1;
                         }
                         else
                         {
-                            empatec = 1;
-                            empatef = 1;
+                            if (Convert.ToInt32(golsforaR[i][x].Text) < Convert.ToInt32(golscasaR[i][x].Text))
+                            {
+                                vitoriac = 1;
+                                derrotaf = 1;
+                            }
+                            else
+                            {
+                                empatec = 1;
+                                empatef = 1;
+                            }
                         }
+                        sql.updateValores(Convert.ToInt32(golscasaR[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec,Convert.ToInt32(golsforaR[i][x].Text));
+                        sql.updateValores(Convert.ToInt32(golsforaR[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef,Convert.ToInt32(golscasaR[i][x].Text));
                     }
-                    //sql.updateValores(Convert.ToInt32(golscasaR[i][x].Text), timecasa[i][x].Text, vitoriac, derrotac, empatec);
-                    //sql.updateValores(Convert.ToInt32(golsforaR[i][x].Text), timefora[i][x].Text, vitoriaf, derrotaf, empatef);
-
                 }
             }
         }
 
         public bool setTimesImpar()
         {
+            par = false;
             try
             {
                 int length = 0;
@@ -314,7 +425,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (golscasa[i - 1][x].Left > 650)
+                        if (timefora[i][x].Right > panel1.Right-50)
                         {
 
                             if (top == true)
@@ -523,7 +634,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (golscasa[i - 1][x].Left > 640)
+                        if (timefora[i][x].Right > panel1.Right - 50)
                         {
                             if (top == true)
                             {
@@ -751,7 +862,9 @@ namespace Gerador
                     {
                         String time = "";
                         golscasa[i][x].Visible = false;
+                        golscasa[i][x].Text = "return";
                         golscasa[i][x].Enabled = false;
+                        golsfora[i][x].Text = "return";
                         golsfora[i][x].Enabled = false;
                         golsfora[i][x].Visible = false;
                         if (timecasa[i][x].Text == ghost)
@@ -985,7 +1098,7 @@ namespace Gerador
                 partida[i].Height = 14;
                 partida[i].Font = new Font("Arial", 10);
 
-                partida[i].Left = timecasa[i][0].Left + 46;
+                partida[i].Left = timecasa[i][0].Left +distancia - 40;
                 partida[i].Top = timecasa[i][0].Top - 30;
 
                 for (int x = 0; x <= (_qtimes - 1) / 2; x++)
@@ -995,6 +1108,8 @@ namespace Gerador
                         String time = "";
                         golscasaR[i][x].Visible = false;
                         golscasaR[i][x].Enabled = false;
+                        golscasaR[i][x].Text = "return";
+                        golsforaR[i][x].Text = "return";
                         golsforaR[i][x].Enabled = false;
                         golsforaR[i][x].Visible = false;
                         if (timecasa[i][x].Text == ghost)
@@ -1023,6 +1138,51 @@ namespace Gerador
                     panel1.Controls.Add(partida[i]);
 
 
+                }
+            }
+        }
+
+
+
+        public void checkvalor()
+        {
+            for (int i = 0; i <= (_qtimes - 1); i++) // qtimes/2 pois, em 4 Times digitados, iria aparecer o resultado 2x. Alemanha x Holanda / Holanda x Alemanha.
+            {
+                for (int x = 0; x <= (_qtimes - 1) / 2; x++)
+                {
+                    if (i == check)
+                    {
+                        break;
+                    }
+                    if (!timecasa[i][x].Text.Contains("Descanço: ") && !timefora[i][x].Text.Contains("Descanço: "))
+                    {
+                        if (golscasa[i][x].Text == "return")
+                        {
+                            golscasa[i][x].Text = golscasa[i][(_qtimes - 1) / 2].Text;
+                            golsfora[i][x].Text = golsfora[i][(_qtimes - 1) / 2].Text;
+                        }
+                        if (golscasaR[i][x].Text == "return")
+                        {
+                            golscasaR[i][x].Text = golscasaR[i][(_qtimes - 1) / 2].Text;
+                            golsforaR[i][x].Text = golsforaR[i][(_qtimes - 1) / 2].Text;
+                        }
+                        if (String.IsNullOrEmpty(golscasa[i][x].Text))
+                        {
+                            golscasa[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsfora[i][x].Text))
+                        {
+                            golsfora[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golscasaR[i][x].Text))
+                        {
+                            golscasaR[i][x].Text = "0";
+                        }
+                        if (String.IsNullOrEmpty(golsforaR[i][x].Text))
+                        {
+                            golsforaR[i][x].Text = "0";
+                        }
+                    }
                 }
             }
         }
