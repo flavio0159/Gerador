@@ -807,7 +807,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (golscasa[i - 1][x].Left > 650)
+                        if (timefora[i][x].Right > panel1.Right - 50)
                         {
                             if (top == true)
                             {
@@ -1045,7 +1045,7 @@ namespace Gerador
                             timecasa[i][x].Top = timecasa[i][x - 1].Top + 30;
                             timefora[i][x].Top = timefora[i][x - 1].Top + 30;
                         }
-                        if (golscasaR[i - 1][x].Left > 650)
+                        if (timefora[i][x].Right > panel1.Right - 50)
                         {
                             if (top == true)
                             {
